@@ -7,7 +7,8 @@ class Player
     @direction = :forward
   end
   
-  def think_act(warrior,space,direction)
+  #def think_act(warrior,space,direction)
+  def think_act(warrior,space)
     if space.empty?
       if warrior.health < 20
         current_health = warrior.health
@@ -17,33 +18,28 @@ class Player
           if warrior.health < 15
             warrior.walk!(:backward)
           else
-            warrior.walk! direction
+            warrior.walk!
           end
         end
       else
-        warrior.walk! direction
+        warrior.walk! 
       end
     else
         if space.enemy?
-            warrior.attack! direction 
+            warrior.attack!
         end
         if space.captive?
-            warrior.rescue! direction  
+            warrior.rescue!
         end
     end
   end
   
   def play_turn(warrior)
-    space = warrior.feel(@direction)
+    space = warrior.feel
     if space.wall?
       warrior.pivot!
-        if @direction == :backward
-          @direction = :forward
-        else
-          @direction = :backward
-        end
     else
-      think_act warrior,space,@direction
+      think_act warrior,space
     end
     
     @health = warrior.health
